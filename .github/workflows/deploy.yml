@@ -24,8 +24,8 @@ jobs:
 
       - name: SSH into server and run deployment script
         run: |
-          ssh -o StrictHostKeyChecking=no user@your.server.com << 'EOF'
-            cd /path/to/your/project || exit 1
+          ssh -o StrictHostKeyChecking=no admin@74.48.81.227 << 'EOF'
+            cd /home/admin/planexa-document-repo || exit 1
             git pull origin main || exit 1
             ddev artisan migrate || exit 1
             ddev artisan optimize:cache || exit 1
