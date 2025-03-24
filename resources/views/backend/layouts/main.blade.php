@@ -12,6 +12,7 @@
 
     <!-- Styles / Scripts -->
     @vite(['resources/css/backend.css', 'resources/js/backend.js'])
+    @livewireStyles
 </head>
 <body class="bg-gray-100">
     <div class="drawer lg:drawer-open">
@@ -120,5 +121,7 @@
 {{--    <div>--}}
 {{--        <h3>Hello work</h3>--}}
 {{--    </div>--}}
+    @livewireScripts
+
 </body>
 </html>
