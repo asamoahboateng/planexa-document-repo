@@ -3,6 +3,8 @@ type: laravel
 docroot: public
 php_version: "8.3"
 webserver_type: nginx-fpm
+#router_http_port: "8080"
+#router_https_port: "8081"
 xdebug_enabled: false
 additional_hostnames: []
 additional_fqdns: []
@@ -13,6 +15,11 @@ use_dns_when_possible: true
 composer_version: "2"
 web_environment: []
 corepack_enable: false
+web_extra_exposed_ports:
+  - name: vite
+    container_port: 5173
+    http_port: 5172
+    https_port: 5173
 disable_upload_dirs_warning: true
 
 # Key features of DDEV's config.yaml:
@@ -20,7 +27,7 @@ disable_upload_dirs_warning: true
 # name: <projectname> # Name of the project, automatically provides
 #   http://projectname.ddev.site and https://projectname.ddev.site
 
-# type: <projecttype>  # backdrop, cakephp, craftcms, drupal, drupal6, drupal7, drupal8, drupal9, drupal10, drupal11, laravel, magento, magento2, php, shopware6, silverstripe, symfony, typo3, wordpress
+# type: <projecttype>  # backdrop, cakephp, craftcms, drupal, drupal6, drupal7, drupal8, drupal9, drupal10, drupal11, generic, laravel, magento, magento2, php, shopware6, silverstripe, symfony, typo3, wordpress
 # See https://ddev.readthedocs.io/en/stable/users/quickstart/ for more
 # information on the different project types
 
@@ -54,7 +61,7 @@ disable_upload_dirs_warning: true
 # "ddev xhprof" to enable Xhprof and "ddev xhprof off" to disable it work better,
 # as leaving Xhprof enabled all the time is a big performance hit.
 
-# webserver_type: nginx-fpm or apache-fpm
+# webserver_type: nginx-fpm, apache-fpm, generic
 
 # timezone: Europe/Berlin
 # If timezone is unset, DDEV will attempt to derive it from the host system timezone
