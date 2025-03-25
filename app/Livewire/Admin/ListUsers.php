@@ -3,6 +3,8 @@
 namespace App\Livewire\Admin;
 
 use App\Models\User as UserModel;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Forms\Components\TextInput;
@@ -31,13 +33,17 @@ class ListUsers extends Component implements HasTable, HasForms
         return $table->recordTitleAttribute('Users')
             ->query(UserModel::query())
             ->columns([
+                TextColumn::make('no')->rowIndex(),
                 TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('email')->sortable()->searchable(),
+                TextColumn::make('role')->sortable()->searchable(),
             ])
             ->filters([
                 TrashedFilter::make(),
             ])
             ->actions([
                 DeleteAction::make(),
+                EditAction::make(),
                 RestoreAction::make(),
             ])
             ->bulkActions([
@@ -47,6 +53,9 @@ class ListUsers extends Component implements HasTable, HasForms
             ->headerActions([
                 CreateAction::make()->slideOver()->model(UserModel::class)->form([
                     TextInput::make('name')->required(),
+                    TextInput::make('email')->required(),
+                    TextInput::make('password')->required(),
+                    Select::make('role')->options(['admin', 'customer'])
                 ])
             ]);
     }
