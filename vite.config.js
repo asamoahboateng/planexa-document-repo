@@ -23,10 +23,10 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/css/backend.css',
                 'resources/js/backend.js',
-                'resources/js/app.js'
+                'resources/js/app.js',
             ],
             refresh: true,
         }),
-        tailwindcss(),
+        // tailwindcss(),
     ],
 });
