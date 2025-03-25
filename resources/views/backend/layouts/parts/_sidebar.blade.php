@@ -1,4 +1,4 @@
-<div class="drawer-side bg-base-200">
+<div class="drawer-side bg-blue-200">
     <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
 {{--    <ul class="menu bg-gray-200 min-h-full w-80 p-4">--}}
 {{--        <!-- Sidebar content here -->--}}
@@ -7,12 +7,12 @@
 {{--    </ul>--}}
 
 {{--    <div class="divider">home</div>--}}
-    <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+    <ul class="menu bg-blue-50-200 text-base-content min-h-full w-80 p-4">
         <li class="text-center mx-auto mb-4">
             <a class="text-xl text-primary text-center"> <h3 class="text-center">Planexa</h3></a>
         </li>
         <li class="my-1">
-            <a href="/home" class="text-lg"> @svg('heroicon-o-home', 'w-6 h-6') Home</a>
+            <a href="/" class="text-lg"> @svg('heroicon-o-home', 'w-6 h-6') Home</a>
         </li>
         <li class="my-1">
             <a href="{{ route('users') }}" class="text-lg"> @svg('heroicon-o-users', 'w-6 h-6') Users</a>

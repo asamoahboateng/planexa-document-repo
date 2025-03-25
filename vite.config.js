@@ -24,10 +24,9 @@ export default defineConfig({
                 'resources/css/backend.css',
                 'resources/js/backend.js',
                 'resources/js/app.js',
-                'vendor/filament/**/*.blade.php'
             ],
             refresh: true,
         }),
-        tailwindcss(),
+        // tailwindcss(),
     ],
 });

@@ -16,12 +16,13 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Component;
 
 class ListUsers extends Component implements HasTable, HasForms
 {
-    use InteractsWithTable, InteractsWithForms;
+    use InteractsWithTable, InteractsWithForms, AuthorizesRequests;
 
 
 

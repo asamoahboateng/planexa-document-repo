@@ -2,13 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('backend')->group(function () {
+Route::group([ 'prefix' => 'backend', 'middleware' => 'web'], function () {
     Route::get('/', function () {
-        return view('backend.dashboard');
+        return view('backend.layouts.auth');
     });
+    Route::get('/admin/login', \App\Livewire\Admin\AuthorizeUsers::class )->name('admin.login');
+    Route::get('/users', \App\Livewire\Admin\ListUsers::class)->name('users');
 });
 //Route::get('/', function () {
 //    return view('welcome');
 //});
 // users
-Route::get('/users', \App\Livewire\Admin\ListUsers::class)->name('users');
+
+
