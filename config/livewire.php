@@ -37,7 +37,7 @@ return [
     | In this case, the view returned by CreatePost will render into $slot.
     |
     */
-    
+
     'layout' => 'backend.layouts.main',
 
     /*
