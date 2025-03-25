@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "2c9877e9b785f814dcfc26d293ecacb6",
+=======
+    "content-hash": "d3e730383ff2b04a1f8f09f89e5c3385",
+>>>>>>> origin/feature/backend
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3141,6 +3145,7 @@
             "time": "2025-03-12T20:24:15+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "masterminds/html5",
             "version": "2.9.0",
             "source": {
@@ -3208,6 +3213,8 @@
             "time": "2024-03-31T07:05:07+00:00"
         },
         {
+=======
+>>>>>>> origin/feature/backend
             "name": "monolog/monolog",
             "version": "3.8.1",
             "source": {
