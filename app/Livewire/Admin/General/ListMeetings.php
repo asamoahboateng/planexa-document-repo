@@ -2,8 +2,11 @@
 
 namespace App\Livewire\Admin\General;
 
+use App\Models\General\Application;
+use App\Models\General\MeetingVideo;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -18,6 +21,7 @@ use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TextInput;
 use App\Models\General\Meeting;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Filament\Tables\Columns\IconColumn;
 
@@ -45,8 +49,16 @@ class ListMeetings extends Component implements HasTable, HasForms
                 TrashedFilter::make(),
             ])
             ->actions([
-                DeleteAction::make(),
+                Action::make('viewDetail')->label('View')
+                    ->icon('heroicon-o-eye')
+                    ->color('info')
+                    ->slideOver()
+                    ->modalHeading('Meeting Details')
+                    ->modalContent(fn (Meeting $record): View => view(
+                        'backend.meetings.single_meeting_detailed', ['record' => $record]
+                    ))->modalSubmitAction(false),
                 EditAction::make(),
+                DeleteAction::make(),
                 RestoreAction::make(),
             ])
             ->bulkActions([

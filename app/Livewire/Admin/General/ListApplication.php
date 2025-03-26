@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Admin\General;
 
+use App\Forms\ApplicationForm;
 use App\Models\General\Application;
 use App\Models\General\Meeting;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -19,6 +21,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 
@@ -44,8 +47,18 @@ class ListApplication extends Component implements HasTable, HasForms
                 TrashedFilter::make(),
             ])
             ->actions([
+
+                Action::make('viewDetail')->label('View')
+                    ->icon('heroicon-o-eye')
+                    ->color('info')
+                    ->slideOver()
+                    ->modalHeading('Application Details')
+                    ->modalContent(fn (Application $record): View => view(
+                        'backend.meetings.single_application', ['record' => $record]
+                    ))->modalSubmitAction(false),
+
+                EditAction::make()->slideOver()->form(ApplicationForm::schema()),
                 DeleteAction::make(),
-                EditAction::make(),
                 RestoreAction::make(),
             ])
             ->bulkActions([
@@ -53,10 +66,7 @@ class ListApplication extends Component implements HasTable, HasForms
                 RestoreBulkAction::make()
             ])
             ->headerActions([
-                CreateAction::make()->slideOver()->model(Application::class)->form([
-                    TextInput::make('file_number')->required(),
-                    TextInput::make('application_number')->required(),
-                ])
+                CreateAction::make()->slideOver()->model(Application::class)->form(ApplicationForm::schema())
             ]);
     }
 

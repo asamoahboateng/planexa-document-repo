@@ -5,6 +5,7 @@ namespace App\Console\Commands\Migrate;
 use App\Models\General\Application;
 use App\Models\General\Location;
 use App\Models\General\Meeting;
+use App\Models\User;
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Console\Command;
 use GuzzleHttp\Client;
@@ -54,7 +55,9 @@ class MeetingMigrateCommand extends Command
                             'governing_committee' => $govCommittee,
                             'hearing_time' => $meeting['hearing_details']['Time'],
                             'hearing_location' => $meeting['hearing_details']['Location'],
-                            'district' => $location
+                            'district' => $location,
+                        ],[
+                            'user_id' => User::where('email','seed@mail.com')->first()->id
                         ]);
 
                         // migration a location address
@@ -67,6 +70,8 @@ class MeetingMigrateCommand extends Command
                                     'location' => $address['address'],
                                     'province' => $innerData['province'],
                                     'ward' => $address['ward'],
+                                ],[
+                                    'user_id' => User::where('email','seed@mail.com')->first()->id
                                 ]);
 
                                 $locationUrl = $meeting['locations'][$counting] ?? '';
@@ -76,6 +81,8 @@ class MeetingMigrateCommand extends Command
                                     'meeting_id' => $singleMeeting->id,
                                     'file_number' => $address['file_number'],
                                     'url' => $locationUrl,
+                                ],[
+                                    'user_id' => User::where('email','seed@mail.com')->first()->id
                                 ]);
                             }
                         }

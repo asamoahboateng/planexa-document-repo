@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\General;
 
+use App\Forms\LocationForm;
 use App\Models\General\Location;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -38,13 +39,14 @@ class ListLocations extends Component implements HasTable, HasForms
                 TextColumn::make('province')->sortable()->searchable(),
                 TextColumn::make('lat')->sortable()->searchable(),
                 TextColumn::make('long')->sortable()->searchable(),
+                TextColumn::make('applications_count')->label('Applications')->counts('applications'),
             ])
             ->filters([
                 TrashedFilter::make(),
             ])
             ->actions([
                 DeleteAction::make(),
-                EditAction::make(),
+                EditAction::make()->slideOver()->model(Location::class)->form(LocationForm::schema()),
                 RestoreAction::make(),
             ])
             ->bulkActions([
@@ -52,13 +54,7 @@ class ListLocations extends Component implements HasTable, HasForms
                 RestoreBulkAction::make()
             ])
             ->headerActions([
-                CreateAction::make()->slideOver()->model(Location::class)->form([
-                    TextInput::make('location')->required(),
-                    TextInput::make('postal_code')->required(),
-                    TextInput::make('lat')->numeric()->inputMode('decimal')->step('0.001')->required(),
-                    TextInput::make('long')->numeric()->inputMode('decimal')->step('0.001')->required(),
-                    Select::make('province')->options(['ON', 'AB', 'NS'])->required(),
-                ])
+                CreateAction::make()->slideOver()->model(Location::class)->form(LocationForm::schema())
             ]);
     }
     public function render()
