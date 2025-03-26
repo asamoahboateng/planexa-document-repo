@@ -19,6 +19,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TextInput;
 use App\Models\General\Meeting;
 use Livewire\Component;
+use Filament\Tables\Columns\IconColumn;
 
 class ListMeetings extends Component implements HasTable, HasForms
 {
@@ -31,8 +32,14 @@ class ListMeetings extends Component implements HasTable, HasForms
             ->columns([
                 TextColumn::make('no')->rowIndex(),
                 TextColumn::make('date')->sortable()->searchable(),
+                TextColumn::make('name')->sortable()->searchable(),
                 TextColumn::make('governing_committee')->sortable()->searchable(),
                 TextColumn::make('district')->sortable()->searchable(),
+                TextColumn::make('applications_count')->label('Applications')->counts('applications'),
+                IconColumn::make('url')->label('view')
+                    ->icon('heroicon-o-arrow-top-right-on-square')
+                    ->url(fn (Meeting $record): string => $record->url)
+                    ->openUrlInNewTab()
             ])
             ->filters([
                 TrashedFilter::make(),

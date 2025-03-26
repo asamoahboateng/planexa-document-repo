@@ -31,6 +31,10 @@ class Meeting extends Model
             $item->slug = Str::slug($item->date . ' '. $item->district);
             $item->user_id = auth()->id();
         });
+
+        static::updating(function (Model $item) {
+           $item->updated_by = auth()->id();
+        });
     }
     public function videos(): HasMany
     {

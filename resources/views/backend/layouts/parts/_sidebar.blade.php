@@ -24,6 +24,9 @@
             <a href="{{ route('locations') }}" class="text-lg"> @svg('heroicon-o-map', 'w-6 h-6') Locations</a>
         </li>
         <li class="my-1">
+            <a href="{{ route('applications') }}" class="text-lg"> @svg('heroicon-o-clipboard-document-list', 'w-6 h-6') Application</a>
+        </li>
+        <li class="my-1">
             <a href="{{ route('meeting-videos') }}" class="text-lg"> @svg('heroicon-o-film', 'w-6 h-6') Meeting Video</a>
         </li>
         <li class="my-1">

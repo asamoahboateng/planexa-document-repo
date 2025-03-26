@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('postal_code')->nullable();
             $table->text('province');
             $table->text('ward')->nullable();
-            $table->float('lat');
-            $table->float('long');
+            $table->float('lat')->nullable();
+            $table->float('long')->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->softDeletes();

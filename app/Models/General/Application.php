@@ -38,11 +38,11 @@ class Application extends Model
 
     public function location(): BelongsTo
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(Location::class, 'location_id');
     }
 
     public function meeting(): BelongsTo
     {
-        return $this->belongsTo(Meeting::class);
+        return $this->belongsTo(Meeting::class, 'meeting_id');
     }
 }
