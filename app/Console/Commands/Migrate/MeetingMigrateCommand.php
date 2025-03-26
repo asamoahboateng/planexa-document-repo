@@ -70,7 +70,7 @@ class MeetingMigrateCommand extends Command
                                 ]);
 
                                 $locationUrl = $meeting['locations'][$counting] ?? '';
-                                print($locationUrl . PHP_EOL);
+                                //print($locationUrl . PHP_EOL);
                                 $application = Application::firstOrCreate([
                                     'location_id' => $singleLocation->id,
                                     'meeting_id' => $singleMeeting->id,

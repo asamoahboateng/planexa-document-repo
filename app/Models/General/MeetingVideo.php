@@ -26,6 +26,7 @@ class MeetingVideo extends Model
         parent::boot();
 
         static::creating(function (Model $item) {
+            $item->slug = Str::slug($item->video_title);
             $item->user_id = auth()->id();
         });
     }
