@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('meeting_videos', function (Blueprint $table) {
             $table->id();
             $table->text('url');
+            $table->text('slug');
             $table->foreignId('meeting_id')->constrained()->onDelete('cascade');
             $table->text('video_title');
             $table->bigInteger('video_duration');
-            $table->text('video_transcript');
+            $table->text('video_transcript')->nullable();
             $table->text('video_description')->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->softDeletes();
