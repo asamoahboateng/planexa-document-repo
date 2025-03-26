@@ -14,6 +14,14 @@ class UserTableSeeder extends Seeder
     public function run(): void
     {
         //
+        User::firstOrCreate([
+            'name' => 'seeder',
+            'email' => 'seed@mail.com',
+        ],[
+            'password' => bcrypt('password'),
+            'email_verified_at' => now(),
+            'role' => 'seeder',
+        ]);
         //admin
         User::firstOrCreate([
             'name' => 'admin',

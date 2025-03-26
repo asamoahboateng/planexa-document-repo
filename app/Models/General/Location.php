@@ -5,6 +5,8 @@ namespace App\Models\General;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Location extends Model
 {
@@ -31,16 +33,16 @@ class Location extends Model
 
     public function applications(): HasMany
     {
-        return $this->hasMany(Application::class);
+        return $this->hasMany(Application::class , 'location_id');
     }
 
     public function videoSegments(): HasMany
     {
-        return $this->hasMany(LocationVideoSegment::class);
+        return $this->hasMany(LocationVideoSegment::class , 'location_id');
     }
 
     public function searchHistory(): HasMany
     {
-        return $this->hasMany(SearchHistory::class);
+        return $this->hasMany(SearchHistory::class, 'location_id');
     }
 }

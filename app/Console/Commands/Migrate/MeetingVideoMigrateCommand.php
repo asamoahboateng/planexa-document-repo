@@ -37,7 +37,7 @@ class MeetingVideoMigrateCommand extends Command
             echo(count($data) . ' records have been found.' . PHP_EOL);
             foreach ($data as $video) {
 //                echo $video['transcript'] . PHP_EOL;
-                $meeting = Meeting::where('name', $video['date'])->first();
+                $meeting = Meeting::where('name', $video['date'])->where('district', $video['town'])->first();
                 if ($meeting) {
                     $meeting->videos()->create([
                         'url' => $video['url'],

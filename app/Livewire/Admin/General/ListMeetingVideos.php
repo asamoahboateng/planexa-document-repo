@@ -2,9 +2,12 @@
 
 namespace App\Livewire\Admin\General;
 
+use App\Models\General\Application;
+use App\Models\General\Meeting;
 use App\Models\General\MeetingVideo;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Livewire\Component;
@@ -19,6 +22,10 @@ use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\Action;
+use Filament\Infolists\Components\TextEntry as InfoTextEntry;
+use Filament\Infolists\Components\Actions\Action as InfoAction;
+use Illuminate\Contracts\View\View;
 class ListMeetingVideos extends Component implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
@@ -29,25 +36,54 @@ class ListMeetingVideos extends Component implements HasTable, HasForms
             ->query(MeetingVideo::query())
             ->columns([
                 TextColumn::make('no')->rowIndex(),
-                TextColumn::make('meeting')->sortable()->searchable(),
-                TextColumn::make('video_url')->sortable()->searchable(),
+                TextColumn::make('meeting.name')->sortable()->searchable()
+                    ->label('Meeting Name')
+                    ->action(
+                        Action::make('meetingDetails')
+                            ->label('Meeting Details')
+                            ->slideOver()
+                            ->modalHeading('Meeting Details')
+                            ->modalContent(fn (MeetingVideo $record): View => view(
+                                'backend.meetings.single_meeting', ['record' => $record->meeting ]
+                            ))
+                        ->modalSubmitAction(false)
+                    ),
+                TextColumn::make('video_title')->sortable()->searchable()
+                    ->label('Title')
+                    ->action(
+                    Action::make('viewDetails')
+                        ->label('View Details')
+                        ->slideOver()
+                        ->modalHeading('Video Details')
+                        ->modalContent(fn (MeetingVideo $record): View => view(
+                            'backend.meetings.single_video', ['record' => $record]
+                        ))->modalSubmitAction(false)
+                    ),
+//                IconColumn::make('url')->label('view')
+//                    ->icon('heroicon-o-arrow-top-right-on-square')
+//                    ->url(fn (MeetingVideo $record): string => $record->url)
+//                    ->openUrlInNewTab(),
+//                IconColumn::make('video_transcript')->label('transcript')
+//                    ->icon('heroicon-o-arrow-top-right-on-square')
+//                    ->url(fn (MeetingVideo $record): string => 'http://192.3.155.50/prg/'. $record->video_transcript)
+//                    ->openUrlInNewTab()
             ])
             ->filters([
                 TrashedFilter::make(),
             ])
             ->actions([
-                DeleteAction::make(),
+//                DeleteAction::make(),
                 EditAction::make(),
                 RestoreAction::make(),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(),
-                RestoreBulkAction::make()
+//                DeleteBulkAction::make(),
+//                RestoreBulkAction::make()
             ])
             ->headerActions([
-                CreateAction::make()->slideOver()->model(MeetingVideo::class)->form([
-                    TextInput::make('video_url')->required(),
-                ])
+//                CreateAction::make()->slideOver()->model(MeetingVideo::class)->form([
+//                    TextInput::make('video_url')->required(),
+//                ])
             ]);
     }
 
