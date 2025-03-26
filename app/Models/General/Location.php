@@ -13,6 +13,8 @@ class Location extends Model
         'slug',
         'location',
         'province',
+        'ward',
+        'user_id',
         'lat',
         'long',
         'postal_code',

@@ -19,9 +19,10 @@ class Application extends Model
         'meeting_id',
         'title',
         'slug',
+        'file_number',
         'application_number',
         'related_application',
-        'type',
+        'type','url',
         'status',
         'description'
     ];

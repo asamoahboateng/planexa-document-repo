@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->text('location');
-            $table->text('slug');
-            $table->text('postal_code');
+            $table->string('location');
+            $table->string('slug');
+            $table->string('postal_code')->nullable();
             $table->text('province');
+            $table->text('ward')->nullable();
             $table->float('lat');
             $table->float('long');
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,5 +33,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('locations');
+    }
+
+    public function createdby(): belongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
+    }
+
+    public function updatedby(): belongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 };
