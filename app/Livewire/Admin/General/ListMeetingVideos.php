@@ -41,6 +41,7 @@ class ListMeetingVideos extends Component implements HasTable, HasForms
                     ->action(
                         Action::make('meetingDetails')
                             ->label('Meeting Details')
+                            ->icon('heroicon-o-eye')
                             ->slideOver()
                             ->modalHeading('Meeting Details')
                             ->modalContent(fn (MeetingVideo $record): View => view(
@@ -73,6 +74,25 @@ class ListMeetingVideos extends Component implements HasTable, HasForms
             ])
             ->actions([
 //                DeleteAction::make(),
+                Action::make('viewDetails')
+                    ->label('View Details')
+                    ->icon('heroicon-o-eye')
+                    ->color('info')
+                    ->slideOver()
+                    ->modalHeading('Video Details')
+                    ->modalContent(fn (MeetingVideo $record): View => view(
+                        'backend.meetings.single_video', ['record' => $record]
+                    ))->modalSubmitAction(false),
+                Action::make('meetingDetails')
+                    ->label('Meeting Details')
+                    ->icon('heroicon-o-calendar')
+                    ->color('success')
+                    ->slideOver()
+                    ->modalHeading('Meeting Details')
+                    ->modalContent(fn (MeetingVideo $record): View => view(
+                        'backend.meetings.single_meeting', ['record' => $record->meeting ]
+                    ))
+                    ->modalSubmitAction(false),
                 EditAction::make(),
                 RestoreAction::make(),
             ])
