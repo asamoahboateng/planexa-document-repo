@@ -11,8 +11,8 @@
                 <div class="stat-figure text-secondary">
                     @svg('heroicon-o-information-circle', 'w-8 h-8')
                 </div>
-                <div class="stat-title">Downloads</div>
-                <div class="stat-value">31K</div>
+                <div class="stat-title">Videos</div>
+                <div class="stat-value">{{ \App\Models\General\MeetingVideo::count() }}</div>
                 <div class="stat-desc">Jan 1st - Feb 1st</div>
             </div>
 
@@ -21,7 +21,7 @@
                     @svg('heroicon-o-map-pin', 'w-8 h-8')
                 </div>
                 <div class="stat-title">Locations</div>
-                <div class="stat-value">4,200</div>
+                <div class="stat-value">{{ \App\Models\General\Location::count() }}</div>
                 <div class="stat-desc">↗︎ 400 (22%)</div>
             </div>
 
@@ -29,8 +29,8 @@
                 <div class="stat-figure text-secondary">
                     @svg('heroicon-o-magnifying-glass', 'w-8 h-8')
                 </div>
-                <div class="stat-title">Searches</div>
-                <div class="stat-value">1,200</div>
+                <div class="stat-title">Meetings</div>
+                <div class="stat-value">{{ \App\Models\General\Meeting::count() }}</div>
                 <div class="stat-desc">↘︎ 90 (14%)</div>
             </div>
         </div>

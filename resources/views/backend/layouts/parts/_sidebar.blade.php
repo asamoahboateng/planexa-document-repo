@@ -12,16 +12,22 @@
             <a class="text-xl text-primary text-center"> <h3 class="text-center">Planexa</h3></a>
         </li>
         <li class="my-1">
-            <a href="/" class="text-lg"> @svg('heroicon-o-home', 'w-6 h-6') Home</a>
+            <a href="{{ route('backend.dashboard') }}" class="text-lg"> @svg('heroicon-o-home', 'w-6 h-6') Home</a>
         </li>
         <li class="my-1">
             <a href="{{ route('users') }}" class="text-lg"> @svg('heroicon-o-users', 'w-6 h-6') Users</a>
         </li>
         <li class="my-1">
-            <a href="" class="text-lg"> @svg('heroicon-o-map', 'w-6 h-6') Locations</a>
+            <a href="{{ route('meetings') }}" class="text-lg"> @svg('heroicon-o-calendar', 'w-6 h-6') Meetings</a>
         </li>
         <li class="my-1">
-            <a href="" class="text-lg"> @svg('heroicon-o-document', 'w-6 h-6') Documents</a>
+            <a href="{{ route('locations') }}" class="text-lg"> @svg('heroicon-o-map', 'w-6 h-6') Locations</a>
+        </li>
+        <li class="my-1">
+            <a href="{{ route('applications') }}" class="text-lg"> @svg('heroicon-o-clipboard-document-list', 'w-6 h-6') Application</a>
+        </li>
+        <li class="my-1">
+            <a href="{{ route('meeting-videos') }}" class="text-lg"> @svg('heroicon-o-film', 'w-6 h-6') Meeting Video</a>
         </li>
         <li class="my-1">
             <a href="" class="text-lg"> @svg('heroicon-o-magnifying-glass', 'w-6 h-6') Search</a>

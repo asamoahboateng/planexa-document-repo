@@ -17,9 +17,12 @@ class AuthorizeUsers extends Component
         ]);
 
         if ($this->type == 'login') {
-            if (auth()->attempt(['username' => $this->username, 'password' => $this->password])) {
+            if (auth()->attempt(['email' => $this->username, 'password' => $this->password])) {
                 Notification::make()->title('Login Successful')->success()->send();
                 return redirect()->route('backend.dashboard');
+            }
+            else{
+                $this->addError('username', 'Username or password is incorrect.');
             }
         }
 
