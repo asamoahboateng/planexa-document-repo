@@ -3,12 +3,34 @@
 use Illuminate\Support\Facades\Route;
 
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-//Route::redirect('/', 'backend');
+Route::get('/home-2', function () {
+
+    return view('website.new-home');
+
+//    return view('website.home');
+})->name('home');
+Route::redirect('/', 'backend');
 
 //Route::redirect('/', 'backend');
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('auth');
+//Route::get('/', function () {
+//    return view('welcome');
+//})->middleware('auth');
+Route::get('/map-two', function () {
+    // Example coordinates data
+    $coordinates = [
+        'lat' => 43.7812974,
+        'lng' => -79.4158993,
+        'name' => 'Sample Location',
+        'address' => '123 Example Street, City, Country',
+        'type' => 'Building'
+    ];
+
+    return view('map-four', compact('coordinates'));
+});
+Route::get('/map', function () {
+    return view('map-two');
+});
+
+Route::get('/search-locations', [\App\Http\Controllers\Website\LocationController::class, 'search'])->name('location-search');
+Route::get('/search-locations-test', [\App\Http\Controllers\Website\LocationController::class, 'searchtest'])->name('location-search-test');
+Route::get('/location/{id}', [\App\Http\Controllers\Website\LocationController::class, 'show'])->name('location-show');

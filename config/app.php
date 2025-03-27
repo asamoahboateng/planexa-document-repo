@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'subtitle' => env('SUBTITLE', 'Single Place for all Documents'),
 
     /*
     |--------------------------------------------------------------------------
