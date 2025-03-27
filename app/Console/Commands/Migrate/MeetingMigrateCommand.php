@@ -19,7 +19,7 @@ class MeetingMigrateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'meeting:json-migrate';
+    protected $signature = 'meeting:json-migrate {url :  url of the json}';
 
     /**
      * This command takes the json from the remote server and import into the database
@@ -35,11 +35,11 @@ class MeetingMigrateCommand extends Command
     {
         // Example usage
         try {
-            $url = 'http://192.3.155.50/prg/json_v2/scb_meetings_data.json';
+            $url = $this->argument('url');
             $data = $this->fetchJsonFromRemote($url);
             if(count($data)) {
 
-                echo count(reset($data)).' records have been found.' . PHP_EOL;
+//                echo count(reset($data)).' records have been found.' . PHP_EOL;
                 $innerData = reset($data);
                 $govCommittee = $innerData['authority'];
                 $location = $innerData['location'];
@@ -90,10 +90,15 @@ class MeetingMigrateCommand extends Command
                     }
                 }
             }
+            $this->info(count($innerData["meetings"]). " Meetings Data imported Successfully");
+            $this->info(count($meeting['locations_address']). " Location Data imported Successfully");
         } catch (Exception $e) {
+            $meeting['locations_address'] = [];
+            $innerData["meetings"] = [];
             $this->error('Error: ' . $e->getMessage());
             Log::error('Error fetching JSON: ' . $e->getMessage());
         }
+
     }
 
     protected function fetchJsonFromRemote($url)

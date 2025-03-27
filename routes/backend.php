@@ -10,6 +10,8 @@ Route::group([ 'prefix' => 'backend', 'middleware' => 'web'], function () {
         Route::get('/locations', \App\Livewire\Admin\General\ListLocations::class)->name('locations');
         Route::get('/meeting-videos', \App\Livewire\Admin\General\ListMeetingVideos::class)->name('meeting-videos');
         Route::get('/applications', \App\Livewire\Admin\General\ListApplication::class)->name('applications');
+
+        Route::get('/utility', \App\Livewire\Admin\Utility\RunCommand::class)->name('admin.utility');
 //        Route::get('/', function () {
 //            return view('backend.dashboard');
 //        })->name('backend.dashboard');
