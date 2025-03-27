@@ -34,7 +34,7 @@ class UpdateLocationCommand extends Command
             try {
                 $details = $fetcher->getAddressDetails($location->location .' ,Canada');
                 if($details) {
-                    echo  $details['postcode'] .' - '. $details['address'] . "\n";
+                    #echo  $details['postcode'] .' - '. $details['address'] . "\n";
 
                     $countt++;
                     $location->update([

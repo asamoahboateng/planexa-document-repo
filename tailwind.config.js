@@ -30,6 +30,9 @@ export default {
     // You can add further customization if needed here
     theme: {
         extend: {
+            backgroundImage: {
+                bgOne: "url('/images/bg1.jpg')",
+            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },

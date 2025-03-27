@@ -42,7 +42,7 @@ class RollbackDataCommand extends Command
                 $districtname = "Etobicoke York";
                 break;
             case "4":
-                $districtname = "Toronto & East York";
+                $districtname = "Toronto and East York";
                 break;
         }
 
