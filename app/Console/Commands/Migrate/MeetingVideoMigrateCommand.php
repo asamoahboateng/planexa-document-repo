@@ -16,7 +16,7 @@ class MeetingVideoMigrateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'meeting-video:json-migrate';
+    protected $signature = 'meeting-video:json-migrate {url :  url of the json}';
 
     /**
      * The console command description.
@@ -31,27 +31,33 @@ class MeetingVideoMigrateCommand extends Command
     public function handle(UrlDataFetcher $dataFetcher)
     {
         try {
-            $url = 'http://192.3.155.50/prg/json/youtube_video_list.json';
+            $url = $this->argument('url');
             $data = $dataFetcher->fetch($url);
 
-            echo(count($data) . ' records have been found.' . PHP_EOL);
+//            echo(count($data) . ' records have been found.' . PHP_EOL);
+            $countting = 0;
             foreach ($data as $video) {
 //                echo $video['transcript'] . PHP_EOL;
+
                 $meeting = Meeting::where('name', $video['date'])->where('district', $video['town'])->first();
                 if ($meeting) {
-                    $meeting->videos()->create([
+                    $countting++;
+                    $meeting->videos()->firstOrCreate([
                         'url' => $video['url'],
                         'video_title' => $video['title'],
                         'video_duration' => $video['duration'],
+                    ], [
                         'video_transcript' => $video['transcript'],
                         'video_description' => $video['description']
                     ]);
                 }
             }
+            $this->info($countting . ' records have been found.');
 
         } catch (Exception $e) {
             $this->error('Error: ' . $e->getMessage());
             Log::error('Error fetching JSON: ' . $e->getMessage());
         }
+
     }
 }

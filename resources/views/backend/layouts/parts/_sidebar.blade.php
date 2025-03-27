@@ -32,6 +32,9 @@
         <li class="my-1">
             <a href="" class="text-lg"> @svg('heroicon-o-magnifying-glass', 'w-6 h-6') Search</a>
         </li>
+        <li class="my-1">
+            <a href="{{ route('admin.utility') }}" class="text-lg"> @svg('heroicon-o-cog', 'w-6 h-6') Utility</a>
+        </li>
 {{--        <li>--}}
 {{--            <details >--}}
 {{--                <summary>@svg('heroicon-o-cog', 'w-6 h-6')  Resource</summary>--}}
