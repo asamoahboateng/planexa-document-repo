@@ -57,7 +57,7 @@ class RunCommand extends Component
                     case "Etobicoke York":
                         $retn =  '3';
                         break;
-                    case "Toronto & East York":
+                    case "Toronto and East York":
                         $retn =  '4';
                         break;
                 }
