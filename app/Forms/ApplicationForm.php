@@ -10,7 +10,10 @@ final class ApplicationForm
     public  static function schema(): array
     {
         return [
-            Forms\Components\Select::make('location_id')->relationship('location', 'location')->preload()->required(),
+            Forms\Components\Select::make('location_id')
+                ->relationship('location', 'location')
+                ->editOptionForm(LocationForm::schema())
+                ->preload()->required(),
             Forms\Components\Select::make('meeting_id')->relationship('meeting', 'name')->preload()->required(),
             TextInput::make('title')->required(),
             TextInput::make('file_number')->required(),

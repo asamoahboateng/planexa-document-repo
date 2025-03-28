@@ -26,6 +26,7 @@ class RunCommandTable extends Seeder
           ['id' => '9', 'name' => 'Remove location data Etobicoke York', 'command' => 'meeting:delete-bulk' , 'argument' => 'Etobicoke York'],
           ['id' => '10', 'name' => 'Remove location data Scarborough', 'command' => 'meeting:delete-bulk' , 'argument' => 'Scarborough'],
           ['id' => '11', 'name' => 'Remove location data Toronto & East York', 'command' => 'meeting:delete-bulk' , 'argument' => 'Toronto & East York'],
+          ['id' => '12', 'name' => 'Remove Duplicate Locations', 'command' => 'location:clean-duplicate' , 'argument' => ''],
         ];
 
 //        RunCommand::firstOrCreate($commands);

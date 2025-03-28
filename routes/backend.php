@@ -12,6 +12,9 @@ Route::group([ 'prefix' => 'backend', 'middleware' => 'web'], function () {
         Route::get('/applications', \App\Livewire\Admin\General\ListApplication::class)->name('applications');
 
         Route::get('/utility', \App\Livewire\Admin\Utility\RunCommand::class)->name('admin.utility');
+
+        Route::get('/single-location/{id}', \App\Livewire\Admin\Unit\SingleLocation::class)->name('single-location');
+        Route::get('/single-meeting/{id}', \App\Livewire\Admin\Unit\SingleMeeting::class)->name('single-meeting');
 //        Route::get('/', function () {
 //            return view('backend.dashboard');
 //        })->name('backend.dashboard');
