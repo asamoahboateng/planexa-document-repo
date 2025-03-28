@@ -4,12 +4,15 @@ namespace App\Livewire\Admin\General;
 
 use App\Forms\LocationForm;
 use App\Models\General\Location;
+use App\Models\General\MeetingVideo;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -28,6 +31,7 @@ class ListLocations extends Component implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
 
+    public $modelTitle = "Locations";
     public function table(Table $table): Table
     {
         return $table->recordTitle('Locations')
@@ -35,7 +39,7 @@ class ListLocations extends Component implements HasTable, HasForms
             ->columns([
                 TextColumn::make('no')->rowIndex(),
                 TextColumn::make('location')->sortable()->searchable(),
-		TextColumn::make('old_address')->sortable()->searchable(),
+		        TextColumn::make('old_address'),
                 TextColumn::make('postal_code')->sortable()->searchable(),
                 TextColumn::make('province')->sortable()->searchable(),
                 TextColumn::make('lat')->sortable()->searchable(),
@@ -46,12 +50,17 @@ class ListLocations extends Component implements HasTable, HasForms
                 TrashedFilter::make(),
             ])
             ->actions([
-                DeleteAction::make(),
+                Action::make('viewDetails')
+                    ->label('view')
+                    ->color('success')
+                    ->icon('heroicon-o-eye')
+                    ->action(fn (Location $record) => redirect()->route('single-location', ['id' => $record->id ])),
                 EditAction::make()->slideOver()->model(Location::class)->form(LocationForm::schema()),
+                DeleteAction::make()->requiresConfirmation(),
                 RestoreAction::make(),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(),
+                DeleteBulkAction::make()->requiresConfirmation(),
                 RestoreBulkAction::make()
             ])
             ->headerActions([

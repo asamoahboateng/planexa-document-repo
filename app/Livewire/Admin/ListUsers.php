@@ -42,12 +42,12 @@ class ListUsers extends Component implements HasTable, HasForms
                 TrashedFilter::make(),
             ])
             ->actions([
-                DeleteAction::make(),
+                DeleteAction::make()->requiresConfirmation(),
                 EditAction::make(),
                 RestoreAction::make(),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(),
+                DeleteBulkAction::make()->requiresConfirmation(),
                 RestoreBulkAction::make()
             ])
             ->headerActions([

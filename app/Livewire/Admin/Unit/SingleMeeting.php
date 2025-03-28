@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Livewire\Admin\General;
+namespace App\Livewire\Admin\Unit;
 
 use App\Forms\ApplicationForm;
 use App\Models\General\Application;
+use App\Models\General\Location;
 use App\Models\General\Meeting;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
@@ -24,17 +23,26 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
-
-class ListApplication extends Component implements HasTable, HasForms
+class SingleMeeting extends Component implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
 
-    public $modelTitle = "Applications";
+    public $meeting, $meetingId;
+
+    public $modelTitle = "Single Meeting";
+
+    public function mount($id)
+    {
+        $this->meeting = Meeting::find($id);
+        $this->meetingId = $id;
+
+        $this->modelTitle = "Single Location - ". $this->meeting->date;
+    }
 
     public function table (Table $table): Table
     {
-        return $table->recordTitle('Agendas')
-            ->query(Application::query())
+        return $table->recordTitle('Location List')
+            ->query(Application::query()->where('meeting_id', $this->meetingId))
             ->columns([
                 TextColumn::make('no')->rowIndex(),
                 TextColumn::make('file_number')->sortable()->searchable(),
@@ -50,34 +58,38 @@ class ListApplication extends Component implements HasTable, HasForms
                     ->openUrlInNewTab()
             ])
             ->filters([
-                TrashedFilter::make(),
+                TrashedFilter::make()
             ])
             ->actions([
-
+                Action::make('meetingDetails')
+                    ->label('Meeting Details')
+                    ->icon('heroicon-o-calendar')
+                    ->color('success')
+                    ->slideOver()
+                    ->modalHeading('Meeting Details')
+                    ->modalContent(fn (Application $record): View => view(
+                        'backend.meetings.single_meeting', ['record' => $record->meeting ]
+                    )),
                 Action::make('viewDetail')->label('View')
                     ->icon('heroicon-o-eye')
                     ->color('info')
                     ->slideOver()
-                    ->modalHeading('Application Details')
+                    ->modalHeading('Meeting Details')
                     ->modalContent(fn (Application $record): View => view(
-                        'backend.meetings.single_application', ['record' => $record]
+                        'backend.meetings.single_meeting_detailed', ['record' => $record->meeting]
                     ))->modalSubmitAction(false),
-
                 EditAction::make()->slideOver()->form(ApplicationForm::schema()),
                 DeleteAction::make()->requiresConfirmation(),
-                RestoreAction::make(),
+                RestoreAction::make()
             ])
             ->bulkActions([
                 DeleteBulkAction::make()->requiresConfirmation(),
-                RestoreBulkAction::make()
+                RestoreBulkAction::make(),
             ])
-            ->headerActions([
-                CreateAction::make()->slideOver()->model(Application::class)->form(ApplicationForm::schema())
-            ]);
+            ->headerActions([]);
     }
-
     public function render()
     {
-        return view('livewire.admin.general.list-application')->extends('backend.layouts.main')->section('contents');
+        return view('livewire.admin.unit.single-meeting')->extends('backend.layouts.main')->section('contents');
     }
 }

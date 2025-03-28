@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\General;
 
 use App\Models\General\Application;
+use App\Models\General\Location;
 use App\Models\General\MeetingVideo;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -29,6 +30,7 @@ class ListMeetings extends Component implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
 
+    public $modelTitle = "Meetings";
     public function table (Table $table): Table
     {
         return $table->recordTitle('Meetings')
@@ -49,7 +51,7 @@ class ListMeetings extends Component implements HasTable, HasForms
                 TrashedFilter::make(),
             ])
             ->actions([
-                Action::make('viewDetail')->label('View')
+                Action::make('viewDetail')->label('View PDF')
                     ->icon('heroicon-o-eye')
                     ->color('info')
                     ->slideOver()
@@ -57,12 +59,17 @@ class ListMeetings extends Component implements HasTable, HasForms
                     ->modalContent(fn (Meeting $record): View => view(
                         'backend.meetings.single_meeting_detailed', ['record' => $record]
                     ))->modalSubmitAction(false),
+                Action::make('viewDetails')
+                    ->label('view applications')
+                    ->color('success')
+                    ->icon('heroicon-o-eye')
+                    ->action(fn (Meeting $record) => redirect()->route('single-meeting', ['id' => $record->id ])),
                 EditAction::make(),
-                DeleteAction::make(),
+                DeleteAction::make()->requiresConfirmation(),
                 RestoreAction::make(),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(),
+                DeleteBulkAction::make()->requiresConfirmation(),
                 RestoreBulkAction::make()
             ])
             ->headerActions([

@@ -78,7 +78,7 @@ class RunCommand extends Component
                 ->send();
             sleep(2);
 
-            if(!in_array($commandID, ['7', '6', '5'])){
+            if(!in_array($commandID, ['7', '6', '5','12'])){
                 $commandrequest->update([
                     'status' => True
                 ]);

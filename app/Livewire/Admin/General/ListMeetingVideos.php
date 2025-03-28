@@ -30,6 +30,7 @@ class ListMeetingVideos extends Component implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
 
+    public $modelTitle = "Meeting Videos";
     public function table(Table $table): Table
     {
         return $table->recordTitle('Meeting Videos')

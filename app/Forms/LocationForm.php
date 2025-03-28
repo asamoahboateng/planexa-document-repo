@@ -12,9 +12,9 @@ final class LocationForm
     {
         return [
             TextInput::make('location')->required(),
-            TextInput::make('postal_code')->required(),
-            TextInput::make('lat')->numeric()->inputMode('decimal')->step('0.001')->required(),
-            TextInput::make('long')->numeric()->inputMode('decimal')->step('0.001')->required(),
+            TextInput::make('postal_code'),
+            TextInput::make('lat')->numeric()->inputMode('decimal'),
+            TextInput::make('long')->numeric()->inputMode('decimal'),
             Select::make('province')->options([
                 'ON' => 'ON',
                 'AB' => 'AB',
