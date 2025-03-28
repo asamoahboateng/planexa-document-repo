@@ -34,3 +34,4 @@ Route::get('/map', function () {
 Route::get('/search-locations', [\App\Http\Controllers\Website\LocationController::class, 'search'])->name('location-search');
 Route::get('/search-locations-test', [\App\Http\Controllers\Website\LocationController::class, 'searchtest'])->name('location-search-test');
 Route::get('/location/{id}', [\App\Http\Controllers\Website\LocationController::class, 'show'])->name('location-show');
+Route::get('/location-application/{location_id}/{application_id}', [\App\Http\Controllers\Website\LocationController::class, 'application'])->name('location.application');
