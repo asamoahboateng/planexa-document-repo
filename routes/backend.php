@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([ 'prefix' => 'backend', 'middleware' => 'web'], function () {
     Route::group(['middleware' => 'auth'], function () {
-        Route::redirect('/', '/dashboard');
+        Route::redirect('/', '/backend/dashboard');
         Route::get('/dashboard', [\App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('backend.dashboard');
         Route::get('/meetings', \App\Livewire\Admin\General\ListMeetings::class)->name('meetings');
         Route::get('/locations', \App\Livewire\Admin\General\ListLocations::class)->name('locations');
