@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
+use App\Models\General\Application;
 use App\Models\General\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class LocationController extends Controller
 {
@@ -66,10 +68,18 @@ class LocationController extends Controller
         return response()->json($locations);
     }
 
-    public function show($id)
+    public function show($id): View
     {
         $location = Location::findOrFail($id);
 //        dd($location);
         return view('website.location-search-result', compact('location'));
+    }
+
+    public function application($locationID, $applicationID): View
+    {
+        $application = Application::with(['location', 'meeting'])->find($applicationID);
+        $location = $application->location;
+        return view('website.location-application', compact('application', 'location'));
+
     }
 }
