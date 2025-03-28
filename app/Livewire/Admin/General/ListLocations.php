@@ -35,6 +35,7 @@ class ListLocations extends Component implements HasTable, HasForms
             ->columns([
                 TextColumn::make('no')->rowIndex(),
                 TextColumn::make('location')->sortable()->searchable(),
+		TextColumn::make('old_address')->sortable()->searchable(),
                 TextColumn::make('postal_code')->sortable()->searchable(),
                 TextColumn::make('province')->sortable()->searchable(),
                 TextColumn::make('lat')->sortable()->searchable(),
