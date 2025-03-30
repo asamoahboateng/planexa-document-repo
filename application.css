@@ -1,0 +1,182 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: rgb(10, 10, 10);
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar .menu {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar a {
+    color: rgb(11, 9, 9);
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.title {
+    margin-top: 20px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #C28FFF;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: rgb(15, 12, 12);
+    margin-bottom: 20px;
+}
+
+/* Main layout for search & documents */
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+/* Left Section (Search + Map) */
+.left-section {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Right Section (Documents) */
+.right-section {
+    width: 70%;
+    padding-left: 20px;
+}
+
+/* Search Box */
+.search-container-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.search-container {
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+/* Search Button */
+.search-button {
+    margin-top: 10px;
+    margin-right: 350px;
+}
+
+.search-button button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #C28FFF;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Search Suggestions */
+.search-container-wrapper {
+    position: relative; 
+}
+
+.search-suggestions {
+    position: absolute;
+    top: 100%;  
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    max-height: 150px;
+    overflow-y: auto;
+    width: 100%;
+    z-index: 999;  
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f1f1f1;
+}
+
+/* Map */
+.map-container {
+    width: 100%;
+    height: 400px;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-section, .right-section {
+        width: 100%;
+    }
+}
+
+.container.text-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-text i {
+    font-size: 36px; 
+    display: flex;
+    align-items: center; 
+}
+
+.icon-text p {
+    margin: 0; 
+    line-height: 36px; 
+    display: flex;
+    align-items: center; 
+}
+
+video{
+    height: 250px;
+    width: 700px;
+}
