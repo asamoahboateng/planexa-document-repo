@@ -3,13 +3,13 @@
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/home-2', function () {
+Route::get('/home', function () {
 
     return view('website.new-home');
 
 //    return view('website.home');
 })->name('home');
-Route::redirect('/', 'backend');
+//Route::redirect('/', 'backend');
 
 //Route::redirect('/', 'backend');
 //Route::get('/', function () {
