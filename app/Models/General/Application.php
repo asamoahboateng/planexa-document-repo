@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use App\Services\TranscriptAnalyzer;
 
 class Application extends Model
 {
@@ -44,5 +45,73 @@ class Application extends Model
     public function meeting(): BelongsTo
     {
         return $this->belongsTo(Meeting::class, 'meeting_id');
+    }
+
+    public function applicationVideo(): array
+    {
+        $location = $this->location;
+
+        $location_address = explode(' ', $location->location);
+        unset($location_address[0]);
+        array_pop($location_address);
+        $newLocation = implode(' ', $location_address);
+
+        $meetings = $this->meeting;
+        $matches = [];
+        foreach ($meetings->videos as $video) {
+            // fetch transcript
+            $meetingsTanscript = $video->fetchvideotranscript();
+            foreach ($meetingsTanscript as $segment) {
+                if (stripos($segment['text'], $newLocation) !== false) {
+                    $matches[] = [
+                        'video_id' => $video->id,
+                        'timestamp' => $segment['start'],
+                        'duration' => $segment['duration'],
+                        'text' => $segment['text']
+                    ];
+                }
+            }
+//            dd([$newLocation, $matches]);
+            // search for name in transript
+
+        }
+        if(count($matches)) {
+            $firstMathc = reset($matches);
+            $video = MeetingVideo::find($firstMathc['video_id']);
+            return [
+                'video' => $video,
+                'timestamp' => floor($firstMathc['timestamp']),
+                'updated_video' => $video->update_video_time(floor($firstMathc['timestamp']))
+            ];
+        }
+
+        $video = MeetingVideo::find($video->id);
+        return [
+            'video' => $video,
+            'timestamp' => floor('0.00'),
+            'updated_video' => $video
+        ];
+//        return [];
+    }
+
+    public function ai_summary()
+    {
+        $ai_transcitp = new TranscriptAnalyzer();
+
+        $result = $ai_transcitp->analyzeTranscript($this);
+
+        // Print progress information
+        echo "Status: " . $result['progress']['status'] . "\n";
+        echo "Chunks processed: " . $result['progress']['processed_chunks'] . "/" . $result['progress']['total_chunks'] . "\n";
+        echo "Success rate: " . $result['progress']['successful_chunks'] . " successful, " . $result['progress']['failed_chunks'] . " failed\n";
+
+        if ($result['success']) {
+            echo "\nFinal Summary:\n" . $result['summary'] . "\n";
+        } else {
+            echo "\nError: " . $result['error'] . "\n";
+        }
+
+        return $result;
+
     }
 }

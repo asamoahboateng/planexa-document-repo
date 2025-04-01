@@ -1,0 +1,151 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\General\Application;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+
+class TranscriptAnalyzer
+{
+    private const CHUNK_SIZE = 10;
+    private const MAX_RETRIES = 3;
+    private const RETRY_DELAY = 1;
+    private const MAX_TOKENS = 300;
+
+    private string $apiKey;
+
+    public function __construct()
+    {
+        $this->apiKey = config('services.openai.api_key');
+    }
+
+    public function analyzeTranscript(Application $application): array
+    {
+        $location = $application->location->location;
+        $meetings = $application->meeting;
+
+        $transcriptFull = [];
+
+        // Collect all video transcripts
+        foreach ($meetings->videos as $video) {
+            $transcript = $video->fetchvideotranscript();
+            $transcriptFull = array_merge($transcriptFull, $transcript);
+        }
+
+        if (empty($transcriptFull)) {
+            return [
+                'success' => false,
+                'error' => 'No transcript found'
+            ];
+        }
+
+        $chunks = array_chunk($transcriptFull, self::CHUNK_SIZE);
+        $summaries = [];
+
+        foreach ($chunks as $index => $chunk) {
+            $summary = $this->processChunk($chunk, $location, $index);
+            if ($summary) {
+                $summaries[] = $summary;
+            }
+        }
+
+        if (empty($summaries)) {
+            return [
+                'success' => false,
+                'error' => 'Failed to analyze transcript'
+            ];
+        }
+
+        $finalSummary = $this->getFinalSummary($summaries, $location);
+
+        return [
+            'success' => true,
+            'summary' => $finalSummary,
+            'partial_summaries' => $summaries
+        ];
+    }
+
+    private function processChunk(array $chunk, string $location, int $index): ?string
+    {
+        $retries = 0;
+        $text = $this->formatChunk($chunk);
+
+        while ($retries < self::MAX_RETRIES) {
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $this->apiKey,
+                    'Content-Type' => 'application/json',
+                ])->post('https://api.openai.com/v1/chat/completions', [
+                    'model' => 'gpt-4',
+                    'messages' => [
+                        [
+                            'role' => 'system',
+                            'content' => "You are analyzing part {$index} of a meeting transcript. Extract important information about {$location}."
+                        ],
+                        [
+                            'role' => 'user',
+                            'content' => $text
+                        ]
+                    ],
+                    'temperature' => 0.7,
+                    'max_tokens' => self::MAX_TOKENS
+                ]);
+
+                $responseData = $response->json();
+
+                if (!isset($responseData['choices'][0]['message']['content'])) {
+                    throw new \Exception('Invalid API response format');
+                }
+
+                return $responseData['choices'][0]['message']['content'];
+
+            } catch (\Exception $e) {
+                Log::error("Chunk {$index} analysis failed: " . $e->getMessage());
+                $retries++;
+                if ($retries < self::MAX_RETRIES) {
+                    sleep(self::RETRY_DELAY);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private function getFinalSummary(array $summaries, string $location): string
+    {
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $this->apiKey,
+                'Content-Type' => 'application/json',
+            ])->post('https://api.openai.com/v1/chat/completions', [
+                'model' => 'gpt-4',
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => "Combine these transcript summaries into a concise final summary about {$location}."
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => implode("\n\n", $summaries)
+                    ]
+                ],
+                'temperature' => 0.7,
+                'max_tokens' => self::MAX_TOKENS
+            ]);
+
+            return $response->json()['choices'][0]['message']['content'];
+
+        } catch (\Exception $e) {
+            Log::error('Final summary generation failed: ' . $e->getMessage());
+            return implode("\n\n", $summaries);
+        }
+    }
+
+    private function formatChunk(array $chunk): string
+    {
+        return collect($chunk)
+            ->map(fn($segment) => $segment['text'])
+            ->join(' ');
+    }
+}
