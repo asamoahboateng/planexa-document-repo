@@ -9,7 +9,7 @@ Route::get('/home', function () {
 
 //    return view('website.home');
 })->name('home');
-//Route::redirect('/', 'backend');
+Route::redirect('/', 'home');
 
 //Route::redirect('/', 'backend');
 //Route::get('/', function () {

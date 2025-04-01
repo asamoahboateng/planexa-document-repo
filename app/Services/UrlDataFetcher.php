@@ -29,12 +29,13 @@ class UrlDataFetcher
             return $data;
         } catch (ConnectException $e) {
             $errorMessage = "Connection error: " . $e->getMessage();
-            $this->error($errorMessage);
+//            $this->error($errorMessage);
             Log::error($errorMessage);
             return null;
         } catch (RequestException $e) {
             $errorMessage = "HTTP request error: " . $e->getMessage();
-            $this->error($errorMessage);
+//            $this->error($errorMessage);
+//            dd($e->getMessage());
             Log::error($errorMessage);
             return null;
         }

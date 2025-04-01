@@ -77,9 +77,12 @@ class LocationController extends Controller
 
     public function application($locationID, $applicationID): View
     {
+//        dd($applicationID);
         $application = Application::with(['location', 'meeting'])->find($applicationID);
         $location = $application->location;
-        return view('website.location-application', compact('application', 'location'));
+        $meeting = $application->meeting;
+//        dd($meeting);
+        return view('website.location-application', compact('application', 'location', 'meeting'));
 
     }
 }
