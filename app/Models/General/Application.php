@@ -89,7 +89,7 @@ class Application extends Model
         return [
             'video' => $video,
             'timestamp' => floor('0.00'),
-            'updated_video' => $video
+            'updated_video' => $video->url
         ];
 //        return [];
     }
