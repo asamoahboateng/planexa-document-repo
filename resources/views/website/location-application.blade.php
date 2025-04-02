@@ -26,11 +26,15 @@
                         </tr>
                         <tr class="py-3">
                             <td><span class="font-light">Application  Number: </span> </td>
-                            <td class="text-end py-2"><span  class="font-bold text-lg">{{ $application->file_number }}</span> </td>
+                            <td class="text-end py-2"><span  class="font-bold text-lg">{{ $application->application_number }}</span> </td>
                         </tr>
                         <tr class="py-3">
                             <td><span class="font-light">Application Status: </span> </td>
-                            <td class="text-end py-2"><span  class="font-bold text-lg">{{ $application->file_number }}</span> </td>
+                            <td class="text-end py-2"><span  class="font-bold text-lg">{{ $application->status }}</span> </td>
+                        </tr>
+                        <tr class="py-3">
+                            <td><span class="font-light">Application Type: </span> </td>
+                            <td class="text-end py-2"><span  class="font-bold text-lg">{{ $application->type }}</span> </td>
                         </tr>
                         <tr class="py-3">
                             <td colspan="2" class="py-2">
@@ -41,6 +45,7 @@
                         <tr class="py-3">
                             <td colspan="2" class="py-2">
                                 <span class="font-light">Related Application: </span>
+                                <p>{{ $application->related_application }}</p>
                             </td>
                         </tr>
                     </tbody>
