@@ -1,0 +1,149 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\General\Application;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
+
+class AnalyzerTwo {
+    public $transcript, $location;
+    private $ollamaUrl = "http://192.168.0.119:11434/api/generate";
+    private $model = "gemma3:4b"; // Replace with your model (e.g., 'grok')
+
+    public function __construct(Application $application) {
+
+        $this->location = $application->location->location;
+        $transcript = [];
+        foreach ($application->meeting->videos as $video) {
+            $transcript = $video->fetchvideotranscript();
+            array_merge($transcript);
+        }
+        $this->transcript = $transcript;
+//        dd(reset($this->transcript));
+
+    }
+
+    // Chunk the transcript into smaller arrays
+    private function chunkTranscript($chunkSize) {
+        return array_chunk($this->transcript, $chunkSize);
+    }
+
+    // Query Ollama API for a single chunk
+    private function queryOllamaChunk($chunk) {
+        $location = $this->location;
+        $transcriptStr = "";
+        foreach ($chunk as $entry) {
+            $transcriptStr .= sprintf(
+                "[start: %.2f, duration: %.2f] %s\n",
+                $entry["start"],
+                $entry["duration"],
+                $entry["text"]
+            );
+        }
+
+//        echo $location.PHP_EOL;
+        $prompt = "Given the following video transcript chunk, find the start time and provide a summary of the conversation related to the location '$location' and that location only. If the location isn't mentioned, return 'Not found in this chunk.'\n\n$transcriptStr\n\nReturn the answer in this format:\nStart Time: <time in seconds or 'N/A'>\nSummary: <summary text or 'Not found in this chunk.'>";
+//        $prompt = "Given the following video transcript chunk, find the start time and provide a summary only of the conversation related to the location '$location'  mentioned in the transcript. If the location is mentioned, summarize only the part of the conversation referring to  '$location' .  If the location isn't mentioned, return 'Not found in this chunk.'";
+
+
+        $data = [
+            "model" => $this->model,
+            "prompt" => $prompt,
+            "stream" => false
+        ];
+
+        $ch = curl_init($this->ollamaUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo "cURL Error: " . curl_error($ch) . "\n";
+            curl_close($ch);
+            return null;
+        }
+        curl_close($ch);
+
+        $result = json_decode($response, true);
+        if (!$result || !isset($result['response'])) {
+            echo "Error: Invalid response from Ollama.\n";
+            return null;
+        }
+
+        $responseText = $result['response'];
+        $lines = explode("\n", $responseText);
+
+        $startTime = null;
+        $summary = "";
+
+        foreach ($lines as $line) {
+            if (preg_match('/Start Time: ([\d.]+|N\/A)/', $line, $matches)) {
+                $startTime = $matches[1] === 'N/A' ? null : (float)$matches[1];
+            } elseif (preg_match('/Summary: (.*)/', $line, $matches)) {
+                $summary = trim($matches[1]);
+            }
+        }
+
+        return [
+            "start_time" => $startTime,
+            "location" => $location,
+            "summary" => $summary
+        ];
+    }
+
+    // Process all chunks and aggregate results
+    public function analyze($chunkSize = 10) {
+        $location = $this->location;
+        echo $location.PHP_EOL;
+        $chunks = $this->chunkTranscript($chunkSize);
+        $finalResult = [
+            "start_time" => null,
+            "location" => $location,
+            "summary" => ""
+        ];
+
+        foreach ($chunks as $chunk) {
+            $result = $this->queryOllamaChunk($chunk);
+            if ($result && $result["start_time"] !== null) {
+                if ($finalResult["start_time"] === null || $result["start_time"] < $finalResult["start_time"]) {
+                    $finalResult["start_time"] = $result["start_time"];
+                }
+                if ($result["summary"] !== "Not found in this chunk.") {
+                    $finalResult["summary"] .= $result["summary"] . " ";
+                }
+            }
+        }
+
+        $finalResult["summary"] = trim($finalResult["summary"]);
+        return $finalResult["start_time"] === null ? null : $finalResult;
+    }
+}
+
+//// Sample usage
+//$transcript = [
+//    ["text" => "Hello from New York", "start" => 0, "duration" => 2.24],
+//    ["text" => "The weather here is nice", "start" => 2.24, "duration" => 1.5],
+//    ["text" => "Traveling to Los Angeles tomorrow", "start" => 3.74, "duration" => 2.0],
+//    ["text" => "LA has great beaches", "start" => 5.74, "duration" => 1.8],
+//    ["text" => "Back to New York next week", "start" => 7.54, "duration" => 2.0]
+//];
+//
+//// Instantiate the class
+//$analyzer = new TranscriptAnalyzer($transcript);
+//
+//// Analyze for a location
+//$location = "Los Angeles";
+//$chunkSize = 2; // Adjust as needed
+//$result = $analyzer->analyze($location, $chunkSize);
+//
+//if ($result) {
+//    echo "Start Time: " . $result["start_time"] . " seconds\n";
+//    echo "Summary: " . $result["summary"] . "\n";
+//} else {
+//    echo "Location '$location' not found in the transcript.\n";
+//}
+//

@@ -2,6 +2,7 @@
 
 namespace App\Models\General;
 
+use App\Services\AnalyzerTwo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -96,20 +97,16 @@ class Application extends Model
 
     public function ai_summary()
     {
-        $ai_transcitp = new TranscriptAnalyzer();
+//        $ai_transcitp = new TranscriptAnalyzer();
 
-        $result = $ai_transcitp->analyzeTranscript($this);
+//        $result = $ai_transcitp->analyzeTranscript($this);
 
-        // Print progress information
-        echo "Status: " . $result['progress']['status'] . "\n";
-        echo "Chunks processed: " . $result['progress']['processed_chunks'] . "/" . $result['progress']['total_chunks'] . "\n";
-        echo "Success rate: " . $result['progress']['successful_chunks'] . " successful, " . $result['progress']['failed_chunks'] . " failed\n";
 
-        if ($result['success']) {
-            echo "\nFinal Summary:\n" . $result['summary'] . "\n";
-        } else {
-            echo "\nError: " . $result['error'] . "\n";
-        }
+        $transripAi = new AnalyzerTwo($this);
+
+        $result = $transripAi->analyze();
+
+//        $result = $ai_transcitp->testConnection($this);
 
         return $result;
 
