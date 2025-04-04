@@ -7,12 +7,12 @@ A repository for policy document and committee meeting for the city of Toronto. 
 
 ## Authors
 
-- Kwame Asamoah Boateng
-- Cynthia Chineme
-- Lava
-- Sampavi
-- Hiruni
-- Vanessa Chinere Arinze-Nkem
+- Chinyere Vanessa Arinze Nkem
+- Kwame Twum Asamoah Boateng
+- Cynthia Ijeoma Chineme
+- Lavatharini Jasinthakumar
+- Hiruni Malsha Paththini Durage
+- Sampavi Shanthakumar
 
 
 ## Features
