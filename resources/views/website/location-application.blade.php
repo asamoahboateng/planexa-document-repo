@@ -21,7 +21,7 @@
                             </td>
                         </tr>
                         <tr class="py-3">
-                            <td><span class="font-light">Application  Number: </span> </td>
+                            <td><span class="font-light">File  Number: </span> </td>
                             <td class="text-end py-2"><span  class="font-bold text-lg">{{ $application->file_number }}</span> </td>
                         </tr>
                         <tr class="py-3">
