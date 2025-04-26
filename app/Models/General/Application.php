@@ -38,6 +38,7 @@ class Application extends Model
         });
     }
 
+    protected $with = ['location', 'meeting'];
     public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class, 'location_id');
