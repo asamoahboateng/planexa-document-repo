@@ -42,8 +42,10 @@ class LocationController extends Controller
 
     public function search(Request $request)
     {
+//        dd('huhu');
         $lat = $request->input('lat');
         $lng = $request->input('lng');
+        $radius = $request->input('radius', 2.5);
 
         // Search locations within 10km radius using Haversine formula
         $locations = DB::table('locations')
@@ -60,11 +62,13 @@ class LocationController extends Controller
                     )
                 ) AS distance')
             )
-            ->having('distance', '<=', 2.5)
+            ->having('distance', '<=', $radius)
             ->orderBy('distance')
             ->setBindings([$lat, $lng, $lat])
-            ->get();
+//            ->get();
+            ->pluck('id')->toArray();
 
+        $locations = Application::whereIn('location_id', $locations)->get();
         return response()->json($locations);
     }
 

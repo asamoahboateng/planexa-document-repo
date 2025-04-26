@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('ui', function () {
+    return view('website.ui');
+})->name('uikit');
 
 Route::get('/home', function () {
 
