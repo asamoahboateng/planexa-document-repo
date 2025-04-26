@@ -235,7 +235,7 @@
     <!-- Hero Section -->
     <div class="relative h-[50vh]">
         <div class="absolute inset-0 z-0">
-            <img src="{{ url('/map-background.png')}}"
+            <img src="{{ asset('/map-background.png')}}"
                  alt="Map Background"
                  class="w-full h-full object-cover">
         </div>
