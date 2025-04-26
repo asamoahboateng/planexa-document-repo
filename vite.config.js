@@ -22,8 +22,10 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/css/backend.css',
+                'resources/css/website-new.css',
                 'resources/js/backend.js',
                 'resources/js/app.js',
+                'resources/js/website-new.js',
             ],
             refresh: true,
         }),

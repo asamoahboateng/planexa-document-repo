@@ -208,7 +208,7 @@
 </head>
 <body class="bg-gray-50">
     <!-- Navigation -->
-    <nav class="fixed w-full bg-blue-900 z-50">
+    <nav id="navbar" class="fixed w-full z-50 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
@@ -233,9 +233,9 @@
     </nav>
 
     <!-- Hero Section -->
-    <div class="relative h-[50vh]">
+    <div class="relative h-[100dvh]">
         <div class="absolute inset-0 z-0">
-            <img src="{{ asset('/map-background.png')}}"
+            <img src="{{ url('images/map-background.jpg')}}"
                  alt="Map Background"
                  class="w-full h-full object-cover">
         </div>
@@ -264,10 +264,17 @@
                 </div>
             </div>
         </div>
+
+        <!-- Downward Arrow -->
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2" style="z-index: 999 !important">
+            <a href="#searchSection" class="text-white animate-bounce">
+                @svg('heroicon-o-chevron-double-down', 'w-8 h-8')
+            </a>
+        </div>
     </div>
 
     <!-- Search Section -->
-    <div class="bg-white shadow-md py-6 search-container mb-8">
+    <div id="searchSection" class="bg-white shadow-md py-6 search-container mb-8">
         <div class="max-w-7xl mx-auto px-4">
             <h2 class="text-2xl font-bold text-blue-900 mb-6">Find Community Meetings Near You</h2>
             <div class="flex flex-col md:flex-row gap-4 items-end">
@@ -351,6 +358,17 @@
         </div>
     </footer>
     <script>
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-blue-900', 'shadow-md');
+                // navbar.classList.remove('bg-blue-900');
+            } else {
+                // navbar.classList.add('bg-blue-900');
+                navbar.classList.remove('bg-blue-900', 'shadow-md');
+            }
+        });
         // Constants and Variables
         const TORONTO_COORDS = {
             lat: 43.653225,
