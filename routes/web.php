@@ -8,7 +8,8 @@ Route::get('ui', function () {
 
 Route::get('/home', function () {
 
-    return view('website.new-home');
+//    return view('website.new-home');
+    return view('website.ui');
 
 //    return view('website.home');
 })->name('home');
