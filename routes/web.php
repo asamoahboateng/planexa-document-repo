@@ -2,17 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('ui', function () {
-    return view('website-new.home');
-})->name('uikit');
-
 Route::get('/home', function () {
-
-    return view('website.new-home');
-//    return view('website.ui');
-
-//    return view('website.home');
+    return view('website-new.home');
 })->name('home');
+
+//Route::get('/home', function () {
+//
+//    return view('website.new-home');
+////    return view('website.ui');
+//
+////    return view('website.home');
+//})->name('home');
 Route::redirect('/', 'home');
 
 //Route::redirect('/', 'backend');
