@@ -6,7 +6,10 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
-                    <span class="text-white text-xl font-bold">CMR System</span>
+                  <div class="flex items-center justify-between">
+                      <img src="{{ url('/images/planexa-logo.png') }}" alt="planexa" style="width: 120px; margin-right: 8px;">
+                      <span class="text-white text-xl font-bold">CMR System</span>
+                  </div>
                 </div>
                 <div class="hidden md:block">
                     <div class="flex items-center space-x-4">
