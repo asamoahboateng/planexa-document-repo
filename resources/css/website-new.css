@@ -46,14 +46,14 @@ body {
 
 #map {
     flex: 1;
-    height: 70vh;
+    /*height: 70vh;*/
     z-index: 1;
 }
 
 /* Search section */
 .search-container {
     position: relative;
-    z-index: 10;
+    /*z-index: 10;*/
 }
 
 #searchResults {
@@ -69,17 +69,22 @@ body {
 }
 
 /* Results panel */
+/*#resultsContainer {*/
+/*    background: white;*/
+/*    border-left: 1px solid #e5e7eb;*/
+/*    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);*/
+/*    overflow-y: auto;*/
+/*    !*z-index: 40;*!*/
+/*    !*height: 50vh;*!*/
+/*}*/
+/* Style the results container to stay within the parent */
 #resultsContainer {
-    width: 33.333333%;
-    max-width: 28rem;
-    background: white;
-    border-left: 1px solid #e5e7eb;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    z-index: 40;
-    height: 70vh;
+    position: relative; /* Or absolute if needed */
+    max-height: 100%; /* Prevent overflow */
+    overflow-y: auto; /* Add scroll if content overflows */
+    border: 1px solid #e5e7eb; /* Optional: Add a border for clarity */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
 }
-
 /* Results cards */
 .results-card {
     background: white;

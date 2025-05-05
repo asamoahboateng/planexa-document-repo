@@ -2,6 +2,7 @@
 
 namespace App\Models\General;
 
+use App\Models\User;
 use App\Services\AnalyzerTwo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,7 +35,11 @@ class Application extends Model
 
         static::creating(function (Model $item) {
             $item->slug = Str::slug($item->title);
-            $item->user_id = auth()->id();
+            if(auth()->guest()){
+                $item->user_id = User::where('email','seed@mail.com')->first()->id;
+            }else{
+                $item->user_id = auth()->id();
+            }
         });
     }
 

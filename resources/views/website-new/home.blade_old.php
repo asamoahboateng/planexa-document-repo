@@ -3,14 +3,23 @@
 @section('contents')
     <!-- Navigation -->
     <nav id="navbar" class="fixed w-full z-50 transition-colors duration-300 bg-white text-white shadow border-b-3">
-        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-start h-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
                   <div class="flex items-center justify-between">
                       <img src="{{ url('/images/planexa-logo.png') }}" alt="planexa" style="width: 120px; margin-right: 8px;">
+                      <span class="text-blue-500 text-xl font-bold">CMR System</span>
                   </div>
                 </div>
-                <span class="text-black mx-auto font-black text-xl">Community Meeting Data</span>
+                <div class="hidden md:block">
+                    <div class="flex items-center space-x-4">
+                        <a href="#" class="nav-link active-link">Home</a>
+                        <a href="#" class="nav-link">Meetings</a>
+                        <a href="#" class="nav-link">Locations</a>
+                        <a href="#" class="nav-link">About</a>
+                        <a href="#" class="nav-link">Contact</a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -50,52 +59,49 @@
         </div>
     </div>
 
-    <div class="relative h-[100px]">
-
-    </div>
-    <!--Search -->
-    <div class="flex flex-row w-full h-[100dvh] items-stretch">
-        <div class="w-2/3">
-            <div id="mapContainer" class="flex w-full h-[100dvh]">
-                <div id="map" class="flex-1"></div>
-            </div>
-        </div>
-        <div class="w-1/3">
-            <div id="searchSection" class="bg-white shadow-md py-6 search-container3 mb-8">
-                <div class="max-w-7xl mx-auto px-4">
-                    <h2 class="text-xl font-bold text-blue-900 mb-6">Find Community Meetings Near You</h2>
-                    <div class="flex flex-col gap-4 items-end">
-                        <div class="flex-1 relative w-full">
-                            <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Location Search</label>
-                            <input type="text"
-                                   id="search"
-                                   placeholder="Search Toronto locations..."
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <div id="searchResults" class="hidden"></div>
-                        </div>
-                        <div class="w-full">
-                            <label for="radius" class="block text-sm font-medium text-gray-700 mb-1">
-                                Search Radius: <span id="radiusValue">2.5</span>km
-                            </label>
-                            <input type="range"
-                                   id="radius"
-                                   min="0.5"
-                                   max="10"
-                                   step="0.5"
-                                   value="2.5"
-                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                        </div>
-                        <button id="searchButton" class="bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition-colors duration-200">
-                            Search
-                        </button>
-                    </div>
-{{--                    <div id="resultsCount" class="mt-4 text-gray-600"></div>--}}
+    <!-- Search Section -->
+    <div id="searchSection" class="bg-white shadow-md py-6 search-container mb-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6">Find Community Meetings Near You</h2>
+            <div class="flex flex-col md:flex-row gap-4 items-end">
+                <div class="flex-1 relative">
+                    <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Location Search</label>
+                    <input type="text"
+                           id="search"
+                           placeholder="Search Toronto locations..."
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <div id="searchResults" class="hidden"></div>
                 </div>
+                <div class="w-full md:w-64">
+                    <label for="radius" class="block text-sm font-medium text-gray-700 mb-1">
+                        Search Radius: <span id="radiusValue">2.5</span>km
+                    </label>
+                    <input type="range"
+                           id="radius"
+                           min="0.5"
+                           max="10"
+                           step="0.5"
+                           value="2.5"
+                           class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                </div>
+                <button id="searchButton" class="bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition-colors duration-200">
+                    Search
+                </button>
             </div>
-            <div  id="resultsContainer1"  class="">
-                <div class="px-4 pt-0 mt-0">
+            <div id="resultsCount" class="mt-4 text-gray-600"></div>
+        </div>
+    </div>
+
+    <!-- Map and Results Section -->
+    <div class="relative w-full">
+        <div id="mapContainer" class="flex w-full">
+            <div id="map" class="flex-1"></div>
+
+            <!-- Results Container -->
+            <div id="resultsContainer" class="hidden w-1/3 max-w-md border-l border-gray-200 bg-white shadow-lg">
+                <div class="p-4">
                     <div class="text-gray-600 mb-4 font-semibold" id="resultsCount"></div>
-                    <div id="resultsCards" class="space-y-4 mb-4 overflow-y-scroll h-[50dvh]"></div>
+                    <div id="resultsCards" class="space-y-4 mb-4"></div>
                     <!-- Pagination -->
                     <div class="flex items-center justify-between border-t border-gray-200 pt-4">
                         <div id="paginationInfo" class="text-sm text-gray-700"></div>
@@ -106,12 +112,8 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </div>
-    <!-- Search Section -->
 
 
 @endsection

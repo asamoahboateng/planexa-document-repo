@@ -39,7 +39,6 @@ class MeetingMigrateCommand extends Command
             $data = $this->fetchJsonFromRemote($url);
             if(count($data)) {
 
-//                echo count(reset($data)).' records have been found.' . PHP_EOL;
                 $innerData = reset($data);
                 $govCommittee = $innerData['authority'];
                 $location = $innerData['location'];

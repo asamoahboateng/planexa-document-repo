@@ -33,6 +33,15 @@
                 <div class="stat-value">{{ \App\Models\General\Meeting::count() }}</div>
                 <div class="stat-desc">↘︎ 90 (14%)</div>
             </div>
+
+            <div class="stat">
+                <div class="stat-figure text-secondary">
+                    @svg('heroicon-o-archive-box-arrow-down', 'w-8 h-8')
+                </div>
+                <div class="stat-title">Meetings</div>
+                <div class="stat-value">{{ \App\Models\General\Application::count() }}</div>
+                <div class="stat-desc">↘︎ 90 (14%)</div>
+            </div>
         </div>
     </div>
 

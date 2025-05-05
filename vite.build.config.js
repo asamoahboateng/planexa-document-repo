@@ -4,20 +4,20 @@ import tailwindcss from '@tailwindcss/vite';
 
 const host = '0.0.0.0';
 const port = 5173;
-const origin = `https://planexa-document-repo.ddev.site:5173`;
+const origin = `https://planexa-document-repo.ddev.site`;
 export default defineConfig({
-    // server: {
-    //
-    //     host: "0.0.0.0",
-    //     port: 5173,
-    //     strictPort: true,
-    //     origin: origin,
-    //     cors: {
-    //         origin: /https?:\/\/([A-Za-z0-9\-\.]+)?(\.ddev\.site)(?::\d+)?$/,
-    //     },
-    //
-    // },
+    server: {
+
+        host: "0.0.0.0",
+        strictPort: true,
+        origin: origin,
+        cors: {
+            origin: /https?:\/\/([A-Za-z0-9\-\.]+)?(\.ddev\.site)(?::\d+)?$/,
+        },
+
+    },
     plugins: [
+
         laravel({
             input: [
                 'resources/css/app.css',

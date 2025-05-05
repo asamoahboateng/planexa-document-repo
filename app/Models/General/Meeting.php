@@ -21,7 +21,8 @@ class Meeting extends Model
         'hearing_time',
         'hearing_location',
         'district',
-        'updated_by'
+        'updated_by',
+        'user_id'
     ];
 
     public static function boot() {
@@ -29,7 +30,12 @@ class Meeting extends Model
 
         static::creating(function (Model $item) {
             $item->slug = Str::slug($item->date . ' '. $item->district);
-            $item->user_id = auth()->id();
+            if(auth()->guest()){
+                $item->user_id = User::where('email','seed@mail.com')->first()->id;
+            }else{
+                $item->user_id = auth()->id();
+            }
+
         });
 
         static::updating(function (Model $item) {

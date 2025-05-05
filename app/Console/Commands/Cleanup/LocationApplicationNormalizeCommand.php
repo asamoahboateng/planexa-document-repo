@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class LocationApplicationNormalizeCommand extends Command
 {
     /**
-     * The name and signature of the console command.
+     * Cleanup and remove Buplcation location
      *
      * @var string
      */
@@ -74,17 +74,11 @@ class LocationApplicationNormalizeCommand extends Command
 
         try {
             DB::transaction(function () use ($keepLocationId, $deleteLocationIds) {
-                // Update applications to reference the kept location
-                $updatedCount = DB::table('applications')
-                    ->whereIn('location_id', $deleteLocationIds)
-                    ->update(['location_id' => $keepLocationId]);
-
                 // Delete the duplicate locations
                 $deletedCount = DB::table('locations')
                     ->whereIn('id', $deleteLocationIds)
                     ->delete();
 
-                $this->line("Updated {$updatedCount} applications");
                 $this->line("Deleted {$deletedCount} duplicate locations");
             });
         } catch (\Exception $e) {

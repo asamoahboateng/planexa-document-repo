@@ -2,6 +2,7 @@
 
 namespace App\Models\General;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -28,7 +29,11 @@ class Location extends Model
 
         static::creating(function (Model $item) {
             $item->slug = Str::slug($item->location);
-            $item->user_id = auth()->id();
+            if(auth()->guest()){
+                $item->user_id = User::where('email','seed@mail.com')->first()->id;
+            }else{
+                $item->user_id = auth()->id();
+            }
         });
     }
 
